@@ -1,6 +1,6 @@
 {
   "name": "@demonovel/local-or-rebuild-file",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "homepage": "https://github.com/bluelovers/ws-demonovel/tree/master/packages/@demonovel/local-or-rebuild-file#readme",
   "bugs": {
@@ -34,7 +34,6 @@
     "fs-extra": "^9.0.1",
     "ts-type": "^1.2.23"
   },
-  "devDependencies": {},
   "publishConfig": {
     "access": "public"
   }

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/@demonovel/*"
   ],
   "scripts": {
     "test": "npx yarn-tool ws run test",
@@ -21,7 +22,10 @@
   "resolutions": {},
   "devDependencies": {
     "@bluelovers/tsconfig": "^1.0.19",
-    "@types/node": "*"
+    "@types/bluebird": "^3.5.32",
+    "@types/fs-extra": "^9.0.1",
+    "@types/node": "*",
+    "@types/uuid": "^8.0.0"
   },
   "peerDependencies": {
     "lerna": "^3"

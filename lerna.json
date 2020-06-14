@@ -1,6 +1,7 @@
 {
   "packages": [
-    "packages/*"
+    "packages/*",
+    "packages/@demonovel/*"
   ],
   "command": {
     "publish": {

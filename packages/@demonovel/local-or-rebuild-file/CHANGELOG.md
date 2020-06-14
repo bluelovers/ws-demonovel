@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/bluelovers/ws-demonovel/compare/@demonovel/local-or-rebuild-file@1.0.2...@demonovel/local-or-rebuild-file@1.0.3) (2020-06-14)
+
+
+### Features
+
+* avoid stat show error ([7448a4c](https://github.com/bluelovers/ws-demonovel/commit/7448a4c3cc053baa7e01cbfa669cf74a384bb7db))
+
+
+
+
+
 ## [1.0.2](https://github.com/bluelovers/ws-demonovel/compare/@demonovel/local-or-rebuild-file@1.0.1...@demonovel/local-or-rebuild-file@1.0.2) (2020-06-14)
 
 

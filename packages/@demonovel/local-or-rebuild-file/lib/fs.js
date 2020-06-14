@@ -4,7 +4,8 @@ exports.saveFile = exports.saveJSON = exports.checkStat = exports.getStat = void
 const fs_extra_1 = require("fs-extra");
 function getStat(targetFile, statFile) {
     return fs_extra_1.readJSON(statFile)
-        .catch(e => fs_extra_1.stat(targetFile));
+        .catch(e => fs_extra_1.stat(targetFile))
+        .catch(r => Promise.reject());
 }
 exports.getStat = getStat;
 async function checkStat(targetFile, options) {

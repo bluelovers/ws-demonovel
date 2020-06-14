@@ -31,7 +31,7 @@ function getLocalOrRebuild(targetFile, options) {
     ({ targetFile, options } = util_1.handleOptions(targetFile, options));
     let isFromLocal = false;
     let existsLocal = false;
-    return bluebird_1.default.resolve(fs_1.checkStat(targetFile, options).catch())
+    return bluebird_1.default.resolve(fs_1.checkStat(targetFile, options))
         .then(async (stat) => {
         if (!stat) {
             existsLocal = await fs_extra_1.pathExists(targetFile);

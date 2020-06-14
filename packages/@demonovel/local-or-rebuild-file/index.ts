@@ -31,7 +31,7 @@ export function getLocalOrRebuild<T>(targetFile: string, options?: IOptionsGetLo
 	let isFromLocal = false;
 	let existsLocal = false;
 
-	return Bluebird.resolve(checkStat(targetFile, options).catch())
+	return Bluebird.resolve(checkStat(targetFile, options))
 		.then(async (stat) =>
 		{
 			if (!stat)

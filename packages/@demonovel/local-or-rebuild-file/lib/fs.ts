@@ -6,6 +6,7 @@ export function getStat(targetFile: string, statFile: string): Promise<Stats>
 {
 	return readJSON(statFile)
 		.catch(e => stat(targetFile))
+		.catch(r => Promise.reject())
 		;
 }
 
@@ -13,7 +14,7 @@ export async function checkStat(targetFile: string, options: IOptionsGetLocalOrR
 {
 	if (!options.force)
 	{
-		let stat = await getStat(targetFile, options.statFile)
+		let stat = await getStat(targetFile, options.statFile);
 		return (stat && (Date.now() - stat.mtimeMs) < options.ttl)
 	}
 

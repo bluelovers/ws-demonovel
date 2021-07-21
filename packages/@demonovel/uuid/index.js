@@ -8,7 +8,7 @@ const uuid_1 = require("uuid");
 function newNovelUUID(siteID, uniqueID) {
     let seed = siteID + '#' + String(uniqueID);
     //return hashSum(seed)
-    return uuid_1.v5(seed, uuid_1.v5.URL);
+    return (0, uuid_1.v5)(seed, uuid_1.v5.URL);
 }
 exports.newNovelUUID = newNovelUUID;
 exports.default = newNovelUUID;

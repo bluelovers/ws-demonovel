@@ -5,26 +5,26 @@ import { ITSResolvable } from 'ts-type';
 import { saveFile, saveJSON, checkStat } from './lib/fs';
 import { handleOptions } from './lib/util';
 
-export interface IOptionsGetLocalOrRebuild
+export interface IOptionsGetLocalOrRebuild<T = any>
 {
 	statFile?: string;
 	ttl?: number,
 	force?: boolean,
 
-	makeFns?: ((targetFile: string, options: IOptionsGetLocalOrRebuild) => ITSResolvable<any>)[];
+	makeFns?: ((targetFile: string, options: IOptionsGetLocalOrRebuild<T>) => ITSResolvable<T>)[];
 
 	fallback?: {
 		module?: string,
 	},
 
-	validFn?(data): asserts data,
+	validFn?(data: unknown): asserts data is T,
 
 	console?: Console,
 
 	rawFile?: boolean,
 }
 
-export function getLocalOrRebuild<T>(targetFile: string, options?: IOptionsGetLocalOrRebuild): Bluebird<T>
+export function getLocalOrRebuild<T>(targetFile: string, options?: IOptionsGetLocalOrRebuild<T>): Bluebird<T>
 {
 	({ targetFile, options } = handleOptions(targetFile, options));
 

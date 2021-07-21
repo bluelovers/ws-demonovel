@@ -6,11 +6,11 @@ export function getStat(targetFile: string, statFile: string): Promise<Stats>
 {
 	return readJSON(statFile)
 		.catch(e => stat(targetFile))
-		.catch(r => Promise.reject())
+		//.catch(r => Promise.reject())
 		;
 }
 
-export async function checkStat(targetFile: string, options: IOptionsGetLocalOrRebuild)
+export async function checkStat(targetFile: string, options: IOptionsGetLocalOrRebuild<any>)
 {
 	if (!options.force)
 	{
@@ -21,7 +21,7 @@ export async function checkStat(targetFile: string, options: IOptionsGetLocalOrR
 	return Promise.reject()
 }
 
-export async function saveJSON(targetFile: string, data, options: IOptionsGetLocalOrRebuild)
+export async function saveJSON<T>(targetFile: string, data: T, options: IOptionsGetLocalOrRebuild<any>)
 {
 	await outputJSON(targetFile, data, {
 		spaces: 2,
@@ -32,7 +32,7 @@ export async function saveJSON(targetFile: string, data, options: IOptionsGetLoc
 	})
 }
 
-export async function saveFile(targetFile: string, data, options: IOptionsGetLocalOrRebuild)
+export async function saveFile<T>(targetFile: string, data: T, options: IOptionsGetLocalOrRebuild<any>)
 {
 	await outputFile(targetFile, data)
 

@@ -16,13 +16,13 @@
   "scripts": {
     "coverage": "npx nyc yarn run test",
     "lint": "npx eslint **/*.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\"",
     "test:jest": "jest --coverage",
     "test:mocha": "npx mocha --require ts-node/register \"!(node_modules)/**/*.{test,spec}.{ts,tsx}\"",
     "npm:publish": "npm publish",
     "npm:publish:lerna": "lerna publish --yes --bump patch",
+    "preversion": "yarn run test",
     "prepublish:lockfile": "npx sync-lockfile .",
-    "prepublishOnly_": "yarn run ncu && yarn run sort-package-json && yarn run test",
     "postpublish_": "git commit -m \"chore(release): publish & git push & echo postpublish\" .",
     "ncu": "npx yarn-tool ncu -u",
     "sort-package-json": "npx yarn-tool sort",
@@ -31,8 +31,9 @@
   },
   "dependencies": {
     "bluebird": "^3.7.2",
-    "fs-extra": "^9.0.1",
-    "ts-type": "^1.2.23"
+    "fs-extra": "^10.0.0",
+    "ts-type": "^1.2.39",
+    "tslib": "^2.3.0"
   },
   "publishConfig": {
     "access": "public"

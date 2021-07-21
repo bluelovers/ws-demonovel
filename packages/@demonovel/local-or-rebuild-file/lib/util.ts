@@ -1,7 +1,7 @@
 
 import { IOptionsGetLocalOrRebuild } from '../index';
 
-export function handleOptions(targetFile: string, options?: IOptionsGetLocalOrRebuild)
+export function handleOptions<T>(targetFile: string, options?: IOptionsGetLocalOrRebuild<T>)
 {
 	options = {
 		...options,

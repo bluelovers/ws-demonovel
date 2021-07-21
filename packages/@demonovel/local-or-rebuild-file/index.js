@@ -1,40 +1,19 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getLocalOrRebuild = void 0;
+const tslib_1 = require("tslib");
 const fs_extra_1 = require("fs-extra");
-const bluebird_1 = __importDefault(require("bluebird"));
+const bluebird_1 = (0, tslib_1.__importDefault)(require("bluebird"));
 const fs_1 = require("./lib/fs");
 const util_1 = require("./lib/util");
 function getLocalOrRebuild(targetFile, options) {
-    ({ targetFile, options } = util_1.handleOptions(targetFile, options));
+    ({ targetFile, options } = (0, util_1.handleOptions)(targetFile, options));
     let isFromLocal = false;
     let existsLocal = false;
-    return bluebird_1.default.resolve(fs_1.checkStat(targetFile, options))
+    return bluebird_1.default.resolve((0, fs_1.checkStat)(targetFile, options))
         .then(async (stat) => {
         if (!stat) {
-            existsLocal = await fs_extra_1.pathExists(targetFile);
+            existsLocal = await (0, fs_extra_1.pathExists)(targetFile);
             return Promise.reject();
         }
         return (options.rawFile ? fs_extra_1.readFile : fs_extra_1.readJSON)(targetFile)
@@ -66,7 +45,7 @@ function getLocalOrRebuild(targetFile, options) {
         .catch(err => {
         if (options.fallback) {
             if (options.fallback.module) {
-                let data = Promise.resolve().then(() => __importStar(require(options.fallback.module))).then(m => { var _a; return (_a = m.default) !== null && _a !== void 0 ? _a : m; }).catch();
+                let data = Promise.resolve().then(() => (0, tslib_1.__importStar)(require(options.fallback.module))).then(m => { var _a; return (_a = m.default) !== null && _a !== void 0 ? _a : m; }).catch();
                 if (typeof data !== 'undefined') {
                     isFromLocal = false;
                     return data;

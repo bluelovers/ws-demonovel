@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/bluelovers/ws-demonovel/compare/@demonovel/local-or-rebuild-file@1.0.3...@demonovel/local-or-rebuild-file@1.0.4) (2021-07-21)
+
+
+### Features
+
+* update type and deps ([86107b3](https://github.com/bluelovers/ws-demonovel/commit/86107b3668f96d923d663f29302d3af92c56f6ec))
+
+
+
+
+
 ## [1.0.3](https://github.com/bluelovers/ws-demonovel/compare/@demonovel/local-or-rebuild-file@1.0.2...@demonovel/local-or-rebuild-file@1.0.3) (2020-06-14)
 
 

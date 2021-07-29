@@ -15,28 +15,32 @@ export async function checkStat(targetFile: string, options: IOptionsGetLocalOrR
 	if (!options.force)
 	{
 		let stat = await getStat(targetFile, options.statFile);
-		return (stat && (Date.now() - stat.mtimeMs) < options.ttl)
+		return isOutdated(stat, options)
 	}
 
 	return Promise.reject()
 }
 
-export async function saveJSON<T>(targetFile: string, data: T, options: IOptionsGetLocalOrRebuild<any>)
+export function isOutdated(stat: Stats, options: IOptionsGetLocalOrRebuild<any>)
 {
-	await outputJSON(targetFile, data, {
-		spaces: 2,
-	})
+	return !stat || ((Date.now() - stat.mtimeMs) > options.ttl)
+}
 
-	await outputJSON(options.statFile, await stat(targetFile), {
+export async function updateStat<T>(targetFile: string, options: IOptionsGetLocalOrRebuild<any>)
+{
+	return outputJSON(options.statFile, await stat(targetFile), {
 		spaces: 2,
 	})
 }
 
-export async function saveFile<T>(targetFile: string, data: T, options: IOptionsGetLocalOrRebuild<any>)
+export function saveJSON<T>(targetFile: string, data: T, options: IOptionsGetLocalOrRebuild<any>)
 {
-	await outputFile(targetFile, data)
-
-	await outputJSON(options.statFile, await stat(targetFile), {
+	return outputJSON(targetFile, data, {
 		spaces: 2,
 	})
+}
+
+export function saveFile<T>(targetFile: string, data: T, options: IOptionsGetLocalOrRebuild<any>)
+{
+	return outputFile(targetFile, data)
 }

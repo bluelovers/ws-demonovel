@@ -11,10 +11,10 @@ function getLocalOrRebuild(targetFile, options) {
     let isFromLocal = false;
     let existsLocal = false;
     return bluebird_1.default.resolve((0, fs_1.checkStat)(targetFile, options))
-        .then(async (stat) => {
-        if (!stat) {
+        .then(async (statOutdated) => {
+        if (statOutdated) {
             existsLocal = await (0, fs_extra_1.pathExists)(targetFile);
-            return Promise.reject();
+            return Promise.reject(void 0);
         }
         return (options.rawFile ? fs_extra_1.readFile : fs_extra_1.readJSON)(targetFile)
             .then(r => {
@@ -43,13 +43,12 @@ function getLocalOrRebuild(targetFile, options) {
         return Promise.reject();
     })
         .catch(err => {
-        if (options.fallback) {
-            if (options.fallback.module) {
-                let data = Promise.resolve().then(() => (0, tslib_1.__importStar)(require(options.fallback.module))).then(m => { var _a; return (_a = m.default) !== null && _a !== void 0 ? _a : m; }).catch();
-                if (typeof data !== 'undefined') {
-                    isFromLocal = false;
-                    return data;
-                }
+        var _a;
+        if ((_a = options.fallback) === null || _a === void 0 ? void 0 : _a.module) {
+            let data = Promise.resolve().then(() => (0, tslib_1.__importStar)(require(options.fallback.module))).then(m => { var _a; return (_a = m.default) !== null && _a !== void 0 ? _a : m; }).catch(e => void 0);
+            if (typeof data !== 'undefined') {
+                isFromLocal = false;
+                return data;
             }
         }
         return Promise.reject();
@@ -71,6 +70,7 @@ function getLocalOrRebuild(targetFile, options) {
         .tap(async (data) => {
         if (!isFromLocal) {
             await (options.rawFile ? fs_1.saveFile : fs_1.saveJSON)(targetFile, data, options);
+            await (0, fs_1.updateStat)(targetFile, options);
         }
     });
 }

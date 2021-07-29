@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.saveFile = exports.saveJSON = exports.checkStat = exports.getStat = void 0;
+exports.saveFile = exports.saveJSON = exports.updateStat = exports.isOutdated = exports.checkStat = exports.getStat = void 0;
 const fs_extra_1 = require("fs-extra");
 function getStat(targetFile, statFile) {
     return (0, fs_extra_1.readJSON)(statFile)
@@ -10,25 +10,29 @@ exports.getStat = getStat;
 async function checkStat(targetFile, options) {
     if (!options.force) {
         let stat = await getStat(targetFile, options.statFile);
-        return (stat && (Date.now() - stat.mtimeMs) < options.ttl);
+        return isOutdated(stat, options);
     }
     return Promise.reject();
 }
 exports.checkStat = checkStat;
-async function saveJSON(targetFile, data, options) {
-    await (0, fs_extra_1.outputJSON)(targetFile, data, {
+function isOutdated(stat, options) {
+    return !stat || ((Date.now() - stat.mtimeMs) > options.ttl);
+}
+exports.isOutdated = isOutdated;
+async function updateStat(targetFile, options) {
+    return (0, fs_extra_1.outputJSON)(options.statFile, await (0, fs_extra_1.stat)(targetFile), {
         spaces: 2,
     });
-    await (0, fs_extra_1.outputJSON)(options.statFile, await (0, fs_extra_1.stat)(targetFile), {
+}
+exports.updateStat = updateStat;
+function saveJSON(targetFile, data, options) {
+    return (0, fs_extra_1.outputJSON)(targetFile, data, {
         spaces: 2,
     });
 }
 exports.saveJSON = saveJSON;
-async function saveFile(targetFile, data, options) {
-    await (0, fs_extra_1.outputFile)(targetFile, data);
-    await (0, fs_extra_1.outputJSON)(options.statFile, await (0, fs_extra_1.stat)(targetFile), {
-        spaces: 2,
-    });
+function saveFile(targetFile, data, options) {
+    return (0, fs_extra_1.outputFile)(targetFile, data);
 }
 exports.saveFile = saveFile;
 //# sourceMappingURL=fs.js.map

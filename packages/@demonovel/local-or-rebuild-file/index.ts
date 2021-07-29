@@ -1,8 +1,7 @@
-
 import { readJSON, pathExists, readFile } from 'fs-extra';
 import Bluebird from 'bluebird';
 import { ITSResolvable } from 'ts-type';
-import { saveFile, saveJSON, checkStat } from './lib/fs';
+import { saveFile, saveJSON, checkStat, isOutdated, updateStat } from './lib/fs';
 import { handleOptions } from './lib/util';
 
 export interface IOptionsGetLocalOrRebuild<T = any>
@@ -32,13 +31,13 @@ export function getLocalOrRebuild<T>(targetFile: string, options?: IOptionsGetLo
 	let existsLocal = false;
 
 	return Bluebird.resolve(checkStat(targetFile, options))
-		.then(async (stat) =>
+		.then<T>(async (statOutdated) =>
 		{
-			if (!stat)
+			if (statOutdated)
 			{
 				existsLocal = await pathExists(targetFile)
 
-				return Promise.reject()
+				return Promise.reject(void 0)
 			}
 
 			return (options.rawFile ? readFile : readJSON)(targetFile)
@@ -49,7 +48,7 @@ export function getLocalOrRebuild<T>(targetFile: string, options?: IOptionsGetLo
 					return r
 				})
 		})
-		.catch(async (err) =>
+		.catch<T>(async (err) =>
 		{
 			err && options.console?.warn(err);
 
@@ -76,24 +75,24 @@ export function getLocalOrRebuild<T>(targetFile: string, options?: IOptionsGetLo
 
 			return Promise.reject()
 		})
-		.catch(err => {
-			if (options.fallback)
-			{
-				if (options.fallback.module)
-				{
-					let data = import(options.fallback.module).then(m => m.default ?? m).catch();
+		.catch<T>(err =>
+		{
 
-					if (typeof data !== 'undefined')
-					{
-						isFromLocal = false;
-						return data;
-					}
+			if (options.fallback?.module)
+			{
+				let data = import(options.fallback.module).then(m => m.default ?? m).catch(e => void 0);
+
+				if (typeof data !== 'undefined')
+				{
+					isFromLocal = false;
+					return data;
 				}
 			}
 
 			return Promise.reject()
 		})
-		.catch(err => {
+		.catch(err =>
+		{
 			err && options.console?.warn(err);
 
 			return (options.rawFile ? readFile : readJSON)(targetFile)
@@ -104,16 +103,19 @@ export function getLocalOrRebuild<T>(targetFile: string, options?: IOptionsGetLo
 					return r
 				})
 		})
-		.tap(data => {
+		.tap(data =>
+		{
 			return options.validFn?.(data)
 		})
-		.tap(async (data) => {
+		.tap(async (data) =>
+		{
 
 			if (!isFromLocal)
 			{
-				await (options.rawFile ? saveFile : saveJSON)(targetFile, data, options)
-			}
+				await (options.rawFile ? saveFile : saveJSON)(targetFile, data, options);
 
+				await updateStat(targetFile, options);
+			}
 		})
 		;
 }

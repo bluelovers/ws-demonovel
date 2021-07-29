@@ -1,5 +1,6 @@
 
 import { IOptionsGetLocalOrRebuild } from '../index';
+import { resolve } from 'path';
 
 export function handleOptions<T>(targetFile: string, options?: IOptionsGetLocalOrRebuild<T>)
 {
@@ -7,7 +8,11 @@ export function handleOptions<T>(targetFile: string, options?: IOptionsGetLocalO
 		...options,
 	};
 
-	options.statFile = options.statFile ?? targetFile + '.stat';
+	targetFile = resolve(targetFile);
+
+	options.statFile ??= targetFile + '.stat';
+
+	options.statFile = resolve(options.statFile);
 
 	if ((options.ttl |= 0) <= 0)
 	{

@@ -42,5 +42,5 @@ export function saveJSON<T>(targetFile: string, data: T, options: IOptionsGetLoc
 
 export function saveFile<T>(targetFile: string, data: T, options: IOptionsGetLocalOrRebuild<any>)
 {
-	return outputFile(targetFile, data)
+	return outputFile(targetFile, data as any)
 }

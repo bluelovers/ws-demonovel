@@ -78,7 +78,7 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "uuid": "^8.3.2"
+    "uuid": "^9.0.1"
   },
   "packageManager": "yarn@1.22.19",
   "publishConfig": {

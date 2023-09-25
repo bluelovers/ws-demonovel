@@ -75,15 +75,16 @@
     "tslib": ">=2"
   },
   "devDependencies": {
-    "@bluelovers/tsconfig": "^1.0.25",
-    "@types/bluebird": "^3.5.36",
-    "@types/fs-extra": "^9.0.12",
+    "@bluelovers/tsconfig": "^1.0.34",
+    "@types/bluebird": "^3.5.39",
+    "@types/fs-extra": "^11.0.2",
+    "@types/jest": "^29.5.5",
     "@types/node": "*",
-    "@types/uuid": "^8.3.1",
+    "@types/uuid": "^9.0.4",
     "@yarn-tool/ws-find-up-paths": "*"
   },
   "peerDependencies": {
-    "lerna": "^4"
+    "lerna": "<=6"
   },
   "packageManager": "yarn@1.22.19"
 }

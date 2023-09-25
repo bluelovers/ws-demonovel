@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getLocalOrRebuild = void 0;
 const tslib_1 = require("tslib");
 const fs_extra_1 = require("fs-extra");
-const bluebird_1 = (0, tslib_1.__importDefault)(require("bluebird"));
+const bluebird_1 = tslib_1.__importDefault(require("bluebird"));
 const fs_1 = require("./lib/fs");
 const util_1 = require("./lib/util");
 function getLocalOrRebuild(targetFile, options) {
@@ -45,7 +45,7 @@ function getLocalOrRebuild(targetFile, options) {
         .catch(err => {
         var _a;
         if ((_a = options.fallback) === null || _a === void 0 ? void 0 : _a.module) {
-            let data = Promise.resolve().then(() => (0, tslib_1.__importStar)(require(options.fallback.module))).then(m => { var _a; return (_a = m.default) !== null && _a !== void 0 ? _a : m; }).catch(e => void 0);
+            let data = Promise.resolve(`${options.fallback.module}`).then(s => tslib_1.__importStar(require(s))).then(m => { var _a; return (_a = m.default) !== null && _a !== void 0 ? _a : m; }).catch(e => void 0);
             if (typeof data !== 'undefined') {
                 isFromLocal = false;
                 return data;

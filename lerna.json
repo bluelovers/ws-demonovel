@@ -24,12 +24,27 @@
       "message": "chore(release): publish",
       "bump": "patch",
       "conventionalCommits": true,
-      "conventionalGraduate": false
+      "conventionalGraduate": false,
+      "concurrency": 1,
+      "loglevel": "silly",
+      "noPrivate": true
     },
     "run": {
-      "stream": true
+      "stream": true,
+      "concurrency": 1
     },
     "exec": {
+      "stream": true,
+      "concurrency": 1
+    },
+    "version": {
+      "concurrency": 1,
+      "noPrivate": true,
+      "conventionalCommits": true,
+      "changelogPreset": "@bluelovers/conventional-changelog-bluelovers"
+    },
+    "add": {
+      "concurrency": 1,
       "stream": true
     }
   },

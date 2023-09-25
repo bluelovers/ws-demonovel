@@ -11,4 +11,14 @@ export function newNovelUUID(siteID: string, uniqueID: string | number): string
 	return uuidv5(seed, uuidv5.URL)
 }
 
+// @ts-ignore
+if (process.env.TSDX_FORMAT !== 'esm')
+{
+	Object.defineProperty(newNovelUUID, "__esModule", { value: true });
+
+	Object.defineProperty(newNovelUUID, 'newNovelUUID', { value: newNovelUUID });
+	Object.defineProperty(newNovelUUID, 'default', { value: newNovelUUID });
+
+}
+
 export default newNovelUUID

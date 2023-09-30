@@ -1,8 +1,9 @@
-
-import { Stats, readJSON, stat, outputJSON, outputFile } from 'fs-extra';
+import { outputFile, outputJSON, readJSON, stat, Stats } from 'fs-extra';
 import { IOptionsGetLocalOrRebuild } from '../index';
 
-export function getStat(targetFile: string, statFile: string): Promise<Stats>
+export type ICacheStats = Pick<Stats, 'mtime' | 'mtimeMs' | 'size' | 'mode'>
+
+export function getStat(targetFile: string, statFile: string): Promise<ICacheStats>
 {
 	return readJSON(statFile)
 		.catch(e => stat(targetFile))
@@ -21,14 +22,28 @@ export async function checkStat(targetFile: string, options: IOptionsGetLocalOrR
 	return Promise.reject()
 }
 
-export function isOutdated(stat: Stats, options: IOptionsGetLocalOrRebuild<any>)
+export function isOutdated(stat: ICacheStats, options: IOptionsGetLocalOrRebuild<any>)
 {
 	return !stat || ((Date.now() - stat.mtimeMs) > options.ttl)
 }
 
 export async function updateStat<T>(targetFile: string, options: IOptionsGetLocalOrRebuild<any>)
 {
-	return outputJSON(options.statFile, await stat(targetFile), {
+	let {
+		mode,
+		size,
+		mtime,
+		mtimeMs,
+	}: ICacheStats = await stat(targetFile);
+
+	const data: ICacheStats = {
+		mode,
+		size,
+		mtime,
+		mtimeMs,
+	};
+
+	return outputJSON(options.statFile, data, {
 		spaces: 2,
 	})
 }

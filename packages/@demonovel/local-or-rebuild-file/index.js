@@ -10,13 +10,14 @@ function getLocalOrRebuild(targetFile, options) {
     ({ targetFile, options } = (0, util_1.handleOptions)(targetFile, options));
     let isFromLocal = false;
     let existsLocal = false;
+    const fnRead = (options.rawFile ? fs_extra_1.readFile : fs_extra_1.readJSON);
     return bluebird_1.default.resolve((0, fs_1.checkStat)(targetFile, options))
         .then(async (statOutdated) => {
         if (statOutdated) {
             existsLocal = await (0, fs_extra_1.pathExists)(targetFile);
             return Promise.reject(void 0);
         }
-        return (options.rawFile ? fs_extra_1.readFile : fs_extra_1.readJSON)(targetFile)
+        return fnRead(targetFile)
             .then(r => {
             existsLocal = true;
             isFromLocal = true;
@@ -56,7 +57,7 @@ function getLocalOrRebuild(targetFile, options) {
         .catch(err => {
         var _a;
         err && ((_a = options.console) === null || _a === void 0 ? void 0 : _a.warn(err));
-        return (options.rawFile ? fs_extra_1.readFile : fs_extra_1.readJSON)(targetFile)
+        return fnRead(targetFile)
             .then(r => {
             existsLocal = true;
             isFromLocal = true;

@@ -20,7 +20,14 @@ function isOutdated(stat, options) {
 }
 exports.isOutdated = isOutdated;
 async function updateStat(targetFile, options) {
-    return (0, fs_extra_1.outputJSON)(options.statFile, await (0, fs_extra_1.stat)(targetFile), {
+    let { mode, size, mtime, mtimeMs, } = await (0, fs_extra_1.stat)(targetFile);
+    const data = {
+        mode,
+        size,
+        mtime,
+        mtimeMs,
+    };
+    return (0, fs_extra_1.outputJSON)(options.statFile, data, {
         spaces: 2,
     });
 }

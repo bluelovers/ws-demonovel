@@ -30,6 +30,8 @@ export function getLocalOrRebuild<T>(targetFile: string, options?: IOptionsGetLo
 	let isFromLocal = false;
 	let existsLocal = false;
 
+	const fnRead = (options.rawFile ? readFile : readJSON) as Extract<typeof readJSON, (...argv: any) => any>;
+
 	return Bluebird.resolve(checkStat(targetFile, options))
 		.then<T>(async (statOutdated) =>
 		{
@@ -40,7 +42,7 @@ export function getLocalOrRebuild<T>(targetFile: string, options?: IOptionsGetLo
 				return Promise.reject(void 0)
 			}
 
-			return (options.rawFile ? readFile : readJSON)(targetFile)
+			return fnRead(targetFile)
 				.then(r =>
 				{
 					existsLocal = true;
@@ -95,7 +97,7 @@ export function getLocalOrRebuild<T>(targetFile: string, options?: IOptionsGetLo
 		{
 			err && options.console?.warn(err);
 
-			return (options.rawFile ? readFile : readJSON)(targetFile)
+			return fnRead(targetFile)
 				.then(r =>
 				{
 					existsLocal = true;
